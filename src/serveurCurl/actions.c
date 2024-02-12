@@ -174,4 +174,70 @@ int traiterTelechargements(struct requete reqList[], int maxlen){
     // Cette fonction doit retourner 0 si elle n'a lu aucune donnée supplémentaire, ou un nombre > 0 si c'est le cas.
 
     // TODO
+
+    // copie du code fourni
+    int octetsATraites;
+
+    
+    fd_set setPipes;
+    struct timeval tvP;
+    tvP.tv_sec = 0; tvP.tv_usec = SLEEP_TIME;
+    int nfdsPipes = 0;
+    FD_ZERO(&setPipes);
+
+    for(int i = 0; i < maxlen; i++){
+        if(reqList[i].status == REQ_STATUS_INPROGRESS){
+            FD_SET(reqList[i].fdPipe, &setPipes);
+            nfdsPipes = (nfdsPipes <= reqList[i].fdSocket) ? reqList[i].fdSocket+1 : nfdsPipes;
+        }
+    }
+
+    if(nfdsPipes > 0){
+        int p = select(nfdsPipes, &setPipes, NULL, NULL, &tvP);
+        if(p > 0){
+            for(int i = 0; i < maxlen; i++){
+                if(reqList[i].status == REQ_STATUS_INPROGRESS && FD_ISSET(reqList[i].fdPipe, &setPipes)){
+                    size_t payload_size;
+
+                    if(VERBOSE)
+                        printf("Lecture de la requete sur le pipe %i\n", reqList[i].fdPipe);
+                    octetsATraites = read(reqList[i].fdPipe, &payload_size, sizeof(payload_size));
+                    if(octetsATraites == -1){
+                        perror("Erreur en effectuant un read() sur un pipe pret");
+                        exit(1);
+                    }
+
+                    if (VERBOSE) {
+                        printf("taille a traiter: %u\n", payload_size);
+                    }
+                    char* buffer = malloc(payload_size);
+                    size_t payload_done = 0;
+                    while (payload_done < payload_size) {
+                        if (VERBOSE) {
+                            printf("taille restante: %u\n", payload_size-payload_done);
+                        }
+                        octetsATraites = read(reqList[i].fdPipe, buffer+payload_done, payload_size-payload_done);
+                        payload_done += octetsATraites;
+                    }
+                    if(VERBOSE){
+                        printf("\t%i octets lus au total\n", payload_done);
+                        printf("\tContenu de la requete : %s\n", buffer);
+                    }
+
+                    reqList[i].len = payload_size;
+                    reqList[i].buf = realloc(reqList[i].buf, payload_size);
+                    memcpy(reqList[i].buf, buffer, payload_size);
+                    reqList[i].status = REQ_STATUS_READYTOSEND;
+
+                    free(buffer);
+
+                    waitpid(reqList[i].pid, NULL, 0);
+                    close(reqList[i].fdPipe);
+                }
+            }
+        }
+    }
+
+    return nfdsPipes;
+
 }
