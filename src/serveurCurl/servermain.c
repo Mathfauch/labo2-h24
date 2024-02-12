@@ -47,7 +47,43 @@ void gererSignal(int signo) {
     // Fonction affichant des statistiques sur les tâches en cours
     // lorsque SIGUSR2 (et _seulement_ SIGUSR2) est reçu
     // TODO
+    printf("============================================================\n");
+    printf("| %2s | %26s | %7s | %12s |\n", "#", "Status", "PID", "File");
+    printf("============================================================\n");
 
+    if (signo == SIGUSR2) {
+        for (int i = 0; i < MAX_CONNEXIONS; i++) {
+            const char* status = statusDesc[reqList[i].status];
+            pid_t pid = reqList[i].pid;
+            struct msgReq req;
+            char* fname;
+
+            if (reqList[i].status >= 2) {
+                char index[] = "index.txt";
+                memcpy(&req, reqList[i].buf, sizeof(req));
+
+                size_t allocsize = req.type == REQ_LIST ? sizeof(index) : req.sizePayload + 1;
+                fname = malloc(allocsize);
+
+                if (req.type == REQ_LIST) {
+                    strncpy(fname, index, 10);
+                }
+                else if (req.type == REQ_READ) {
+                    strncpy(fname, reqList[i].buf, req.sizePayload);
+                    fname[allocsize - 1] = '\0';
+                }
+            }
+            else {
+                fname = malloc(1);
+                *fname = '\0';
+            }
+            printf("| %2d | %26s | %7d | %12s |\n", i, status, pid, fname);
+
+            free(fname);
+        }
+    }
+
+    printf("============================================================\n");
 }
 
 
@@ -65,7 +101,9 @@ int main(int argc, char* argv[]){
 
     // TODO
     // Implémentez ici le code permettant d'attacher la fonction "gereSignal" au signal SIGUSR2
-
+    if (signal(SIGUSR2, gererSignal) == SIG_ERR) {
+        perror("\nNe peut pas catch SIGUSR2\n");
+    }
 
     // TODO
     // Création et initialisation du socket (il y a 5 étapes)
@@ -73,26 +111,39 @@ int main(int argc, char* argv[]){
     //      Puis, désignez le socket comme étant de type AF_UNIX
     //      Finalement, copiez le chemin vers le socket UNIX dans le bon attribut de la structure
     //      Voyez man unix(7) pour plus de détails sur cette structure
-
+    struct sockaddr_un un;
+    memset(&un, 0, sizeof(un.sun_path));
+    un.sun_family = AF_UNIX;
+    memcpy(un.sun_path, path, sizeof(un.sun_path));
     // TODO
     // 2) Créez le socket en utilisant la fonction socket() et affectez-le à une variable nommée sock
     //      Vérifiez si sa création a été effectuée avec succès, sinon quittez le processus en affichant l'erreur
-
+    int sock = socket(AF_UNIX, SOCK_STREAM, 0);
+    if (sock < 0) {
+        perror("erreur creation socket");
+        return 1;
+    }
     // TODO
     // 3) Utilisez fcntl() pour mettre le socket en mode non-bloquant
     //      Vérifiez si l'opération a été effectuée avec succès, sinon quittez le processus en affichant l'erreur
     //      Voyez man fcntl pour plus de détails sur le champ à modifier
-
+    fcntl(sock, F_SETFL, O_NONBLOCK);
     // TODO
     // 4) Faites un bind sur le socket
     //      Vérifiez si l'opération a été effectuée avec succès, sinon quittez le processus en affichant l'erreur
     //      Voyez man bind(2) pour plus de détails sur cette opération
-
+    if (bind(sock, (struct sockaddr *)&un, sizeof(struct sockaddr_un)) < 0) {
+        perror("erreur au bind()");
+        return 1;
+    }
     // TODO
     // 5) Mettez le socket en mode écoute (listen), en acceptant un maximum de MAX_CONNEXIONS en attente
     //      Vérifiez si l'opération a été effectuée avec succès, sinon quittez le processus en affichant l'erreur
     //      Voyez man listen pour plus de détails sur cette opération
-
+    if (listen(sock, MAX_CONNEXIONS) < 0) {
+        perror("erreur au listen()");
+        return 1;
+    }
 
     // Initialisation du socket UNIX terminée!
 
