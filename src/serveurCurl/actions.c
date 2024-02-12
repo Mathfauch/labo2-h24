@@ -103,7 +103,11 @@ int traiterConnexions(struct requete reqList[], int maxlen){
                     // Ici, vous devez tout d'abord initialiser un nouveau pipe à l'aide de la fonction pipe()
                     // Voyez man pipe pour plus d'informations sur son fonctionnement
                     // TODO
-
+                    int pipefd[2];
+                    if (pipe(pipefd) == -1) {
+                        perror("Erreur lors du pipe");
+                        exit(EXIT_FAILURE);
+                    }
                     // Une fois le pipe initialisé, vous devez effectuer un fork, à l'aide de la fonction du même nom
                     // Cela divisera votre processus en deux nouveaux processus, un parent et un enfant.
                     // - Dans le processus enfant, vous devez appeler la fonction executerRequete() en lui donnant
@@ -116,7 +120,27 @@ int traiterConnexions(struct requete reqList[], int maxlen){
                     // Pour plus d'informations sur la fonction fork() et sur la manière de détecter si vous êtes dans
                     // le parent ou dans l'enfant, voyez man fork(2).
                     // TODO
-
+                    pid_t cpid;
+                    cpid = fork();
+                    switch (cpid)
+                    {
+                        case -1:
+                            perror("Errer lors du fork");
+                            exit(EXIT_FAILURE);
+                            break;
+                        case 0:
+                            close(pipefd[0]);
+                            executerRequete(pipefd[1], buffer);
+                            close(pipefd[1]);
+                            _exit(EXIT_SUCCESS);
+                            break;
+                        default:
+                            close(pipefd[1]);
+                            reqList[i].pid = cpid;
+                            reqList[i].fdPipe = pipefd[0];
+                            reqList[i].status = REQ_STATUS_INPROGRESS;
+                            break;
+                    }
                 }
             }
         }
