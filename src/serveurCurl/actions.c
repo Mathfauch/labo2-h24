@@ -22,6 +22,27 @@ int verifierNouvelleConnexion(struct requete reqList[], int maxlen, int socket){
     // Cette fonction doit retourner 0 si elle n'a pas acceptée de nouvelle connexion, ou 1 dans le cas contraire.
 
     // TODO
+    int val = accept(socket, NULL, NULL);
+    if (val < 1) {
+        if (errno != EAGAIN) {
+            return 0;
+        }
+        else {
+            return 0;
+        }
+    }
+    else {
+        if (VERBOSE) {
+            printf("nouvelle socket: %i\n", val);
+        }
+        int indexOfRequest = nouvelleRequete(reqList, maxlen);
+        if (indexOfRequest != -1) {
+            reqList[indexOfRequest].fdSocket = val;
+            reqList[indexOfRequest].status = REQ_STATUS_LISTEN;
+            return 1;
+        }
+    }
+    return 0;
 }
 
 int traiterConnexions(struct requete reqList[], int maxlen){
