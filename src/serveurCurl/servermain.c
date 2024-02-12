@@ -75,7 +75,7 @@ int main(int argc, char* argv[]){
     //      Voyez man unix(7) pour plus de détails sur cette structure
 
     // TODO
-    // 2) Créez le socket en utilisant la fonction socket().
+    // 2) Créez le socket en utilisant la fonction socket() et affectez-le à une variable nommée sock
     //      Vérifiez si sa création a été effectuée avec succès, sinon quittez le processus en affichant l'erreur
 
     // TODO

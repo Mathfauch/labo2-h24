@@ -88,6 +88,8 @@ Votre serveur doit pouvoir gérer au minimum cinq (5) connexions simultanées. V
 
 > Notez que le débogueur GDB n'est pas, par défaut, capable de déboguer les processus enfants lancés avec *fork*. Ainsi, vous ne pourrez pas suivre ce qui se passe dans les processus enfants exécutant cURL. Ce n'est toutefois pas un problème dans le contexte de ce laboratoire, puisque le code (correct) de téléchargement vous est déjà fourni.
 
+> **Attention** : tel que fourni, le projet ne compilera *pas*. Vous devez réaliser les sections mentionnées par le mot-clé `TODO` (et définir les variables demandées) avant de pouvoir le compiler. 
+
 
 ## 5. Seconde partie : système de fichier local
 
