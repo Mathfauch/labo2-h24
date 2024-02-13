@@ -6,5 +6,5 @@ C_DEFINES = -D_FILE_OFFSET_BITS="64 -Wall -Wextra -Wpedantic -Wduplicated-cond -
 
 C_INCLUDES = 
 
-C_FLAGS = -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/opt/vc/lib -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/lib/arm-linux-gnueabihf -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/usr/lib/arm-linux-gnueabihf -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/usr/local/lib -g
+C_FLAGS = -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/opt/vc/lib -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/lib/arm-linux-gnueabihf -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/usr/lib/arm-linux-gnueabihf -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/usr/local/lib
 
