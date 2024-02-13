@@ -92,7 +92,48 @@ static int setrfs_getattr(const char *path, struct stat *stbuf)
 	stbuf->st_uid = context->uid;		// On indique l'utilisateur actuel comme proprietaire
 	stbuf->st_gid = context->gid;		// Idem pour le groupe
 
-	// TODO
+	stbuf->st_ino = 0;
+	stbuf->st_dev = 0;
+	stbuf->st_nlink = 0;
+	stbuf->st_rdev = 0;
+	time_t currentTime;
+	time(&currentTime);
+	stbuf->st_atime = currentTime;//time of last access (now)
+
+	char firstCharOfPath;
+	memcmp(&firstCharOfPath, path, sizeof(char));
+	if(firstCharOfPath == '/')
+	{
+		//on ne gere pas les sous-repertoires, donc il s'agit ici du root et du seul repertoire possible
+		stbuf->st_mode = (S_IFDIR & S_IFMT) | S_IRWXU | S_IRWXG | S_IRWXO;
+	}
+	else
+	{
+		stbuf->st_mode = (S_IFREG & S_IFMT) | S_IRWXU | S_IRWXG | S_IRWXO;
+	}
+
+	struct cacheData *cache = (struct cacheData*)context->private_data;
+	struct cacheFichier *cachedFile = trouverFichier(cache, path);
+	if(cachedFile == NULL)
+	{
+		//Le fichier n'est pas encore en cache, on indique une taille arbitraire
+		stbuf->st_size = 1;
+		//TODO: find return, do we signal an error?
+	}
+	else
+	{
+		if(cachedFile->countOpen > 1)
+		{
+			//fichier est ouvert, on donne la taille reelle
+			stbuf->st_size = cachedFile->len;
+		}
+		else
+		{
+			//fichier n'est pas ouvert, on donne la borne superieure
+			stbuf->st_size = 104857601;
+		}
+		return 0;
+	}
 }
 
 
@@ -193,7 +234,7 @@ static int setrfs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 // Cette fonction est appelée lorsqu'un processus ouvre un fichier. Dans ce cas-ci, vous devez :
 // 1) si le fichier est déjà dans le cache, retourner avec succès en mettant à jour le file handle (champ fh)
 //		dans la structure fuse_file_info
-// 2) si le fichier n'est pas dans le cas, envoyer une requête au serveur pour le télécharger, puis l'insérer dans
+// 2) si le fichier n'est pas dans le cache, envoyer une requête au serveur pour le télécharger, puis l'insérer dans
 //		le cache et effectuer l'étape 1).
 // 3) il se peut que le fichier n'existe tout simplement pas. Dans ce cas, vous devez renvoyer le code d'erreur approprié.
 //
@@ -210,7 +251,22 @@ static int setrfs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 // énoncées plus haut. Rappelez-vous en particulier qu'un pointeur est unique...
 static int setrfs_open(const char *path, struct fuse_file_info *fi)
 {
-		// TODO
+	struct fuse_context *context = fuse_get_context();
+	struct cacheData *cache = (struct cacheData*)context->private_data;
+	struct cacheFichier *cachedFile = trouverFichier(cache, path);
+	if(cachedFile == NULL)
+	{
+		//fichier n'est pas en cache TODO: requete telechargement serveur, verifier si fichier existe
+
+	}
+	else
+	{
+		//fichier deja en cache
+		uint64_t *cachedFilePtr = &cachedFile;
+		fi->fh = cachedFilePtr;//on definit le file handle comme un pointeur vers la structure du fichier en cache
+		return 0;//return 0 on success
+	}
+
 }
 
 
