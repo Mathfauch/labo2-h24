@@ -93,6 +93,39 @@ static int setrfs_getattr(const char *path, struct stat *stbuf)
 	stbuf->st_gid = context->gid;		// Idem pour le groupe
 
 	// TODO
+
+	stbuf->st_dev=0;
+	stbuf->st_ino=0;
+	stbuf->st_nlink=0;
+	stbuf->st_rdev=0;
+	stbuf->st_size=0;
+	stbuf->st_atime=0;
+	stbuf->st_mtime=0;
+	stbuf->st_ctime=0;
+	stbuf->st_blksize=1;
+	stbuf->st_blocks=0;
+
+	struct cacheData *cache = (struct cacheData*)context->private_data;
+	struct cacheFichier *fichier = trouverFichier(cache, path);
+
+	if (fichier != NULL) {
+		if (strcmp(path, "/"))
+		{
+			stbuf ->st_mode = S_IFDIR;
+		}
+		else {
+			stbuf->st_mode = S_IFREG;
+			stbuf->st_size = fichier->len;
+		}
+		return 0;
+	}
+	
+	else {
+		stbuf->st_mode = S_IFREG;
+		stbuf->st_size = 104857600 + 1;
+		return 1;
+	}
+
 }
 
 
@@ -211,6 +244,57 @@ static int setrfs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 static int setrfs_open(const char *path, struct fuse_file_info *fi)
 {
 		// TODO
+		// On récupère le contexte
+	struct fuse_context *context = fuse_get_context();
+	struct cacheData *cache = (struct cacheData*)context->private_data;
+	struct cacheFichier *fichier = trouverFichier(cache, path);
+
+	if (fichier != NULL) {
+		uint32_t file_fh = &fichier;
+		fi->fh = file_fh;
+		incrementerCompteurFichier(cache, path, 1);
+		return file_fh;
+	}
+
+	// Le fichier est pas en cache faique faut faire une request
+	int sock = socket(AF_UNIX, SOCK_STREAM, 0);
+	if(sock == -1){
+	    perror("Impossible d'initialiser le socket UNIX");
+	    return -1;
+	}
+
+	// Ecriture des parametres du socket
+	struct sockaddr_un sockInfo;
+	memset(&sockInfo, 0, sizeof(sockInfo));
+	sockInfo.sun_family = AF_UNIX;
+	strncpy(sockInfo.sun_path, unixSockPath, sizeof(sockInfo.sun_path) - 1);
+
+	// Connexion
+	if(connect(sock, (const struct sockaddr *) &sockInfo, sizeof(sockInfo)) < 0){
+		perror("Erreur connect");
+		exit(1);
+	}
+
+	// Formatage et envoi de la requete
+	struct msgReq req;
+	req.type = REQ_READ;
+	req.sizePayload = sizeof(path);
+	int octetsTraites = envoyerMessage(sock, &req, path);
+
+	// On attend et on recoit le fichier demande
+	struct msgRep rep;
+	octetsTraites = read(sock, &rep, sizeof(rep));
+	if(octetsTraites == -1){
+		perror("Erreur en effectuant un read() sur un socket pret");
+		exit(1);
+	}
+	else if (octetsTraites == STATUS_ERREUR_TELECHARGEMENT) {
+		return EACCES;
+	}
+
+	struct cacheFichier *new_file;
+	
+
 }
 
 
