@@ -46,6 +46,12 @@
 
 const char unixSockPath[] = "/tmp/setrunixsocket";
 
+typedef struct
+{
+	uintptr_t cachedFilePtr;
+	int openRes;
+} fileHandleStruct;
+
 
 
 // Cette fonction initialise le cache et l'insère dans le contexte de FUSE, qui sera
@@ -256,15 +262,24 @@ static int setrfs_open(const char *path, struct fuse_file_info *fi)
 	struct cacheFichier *cachedFile = trouverFichier(cache, path);
 	if(cachedFile == NULL)
 	{
-		//fichier n'est pas en cache TODO: requete telechargement serveur, verifier si fichier existe
-
+		//fichier n'est pas en cache, on doit faire une requete et l'obtenir
 	}
 	else
 	{
 		//fichier deja en cache
-		uint64_t *cachedFilePtr = &cachedFile;
-		fi->fh = cachedFilePtr;//on definit le file handle comme un pointeur vers la structure du fichier en cache
-		return 0;//return 0 on success
+		int res = open(path, fi->flags);
+		if(res == -1)
+		{
+			return -1;
+		}
+		else
+		{
+			fileHandleStruct *fileHandleStructPtr = malloc(sizeof(fileHandleStruct));//TODO: This file handle must be freed when the file is closed
+			fileHandleStructPtr->cachedFilePtr = (uintptr_t) &cachedFile;
+			fileHandleStructPtr->openRes = res;
+			fi->fh = (uintptr_t) fileHandleStructPtr;
+			return 0;
+		}
 	}
 
 }
@@ -290,7 +305,18 @@ static int setrfs_open(const char *path, struct fuse_file_info *fi)
 static int setrfs_read(const char *path, char *buf, size_t size, off_t offset,
 		    struct fuse_file_info *fi)
 {
-		// TODO
+	//TODO add mutexes if necessary
+	fileHandleStruct *fileHandle = (fileHandleStruct*) ((uintptr_t) (fi->fh));
+	struct cacheFichier *fileToRead = (struct cacheFichier*) ((uintptr_t) fileHandle->cachedFilePtr);
+	uintptr_t startReadByteIndex = (uintptr_t) (fileToRead->data[0] + offset);
+	uintptr_t maxIndex = (uintptr_t) (fileToRead->data[0] + fileToRead->len);
+	if((startReadByteIndex + size) > maxIndex)
+	{
+		//Trying to read too much data, resize "size" so that it only reads the rest of the file
+		size = maxIndex - startReadByteIndex;
+	}
+	memcpy(buf, fileToRead->data, size);
+	return size;
 }
 
 
