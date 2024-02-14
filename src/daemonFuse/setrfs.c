@@ -46,8 +46,6 @@
 
 const char unixSockPath[] = "/tmp/setrunixsocket";
 
-
-
 // Cette fonction initialise le cache et l'insère dans le contexte de FUSE, qui sera
 // accessible à toutes les autres fonctions.
 // Elle est déjà implémentée pour vous, mais vous pouvez la modifier au besoin.
@@ -232,7 +230,7 @@ static int setrfs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 // Cette fonction est appelée lorsqu'un processus ouvre un fichier. Dans ce cas-ci, vous devez :
 // 1) si le fichier est déjà dans le cache, retourner avec succès en mettant à jour le file handle (champ fh)
 //		dans la structure fuse_file_info
-// 2) si le fichier n'est pas dans le cas, envoyer une requête au serveur pour le télécharger, puis l'insérer dans
+// 2) si le fichier n'est pas dans le cache, envoyer une requête au serveur pour le télécharger, puis l'insérer dans
 //		le cache et effectuer l'étape 1).
 // 3) il se peut que le fichier n'existe tout simplement pas. Dans ce cas, vous devez renvoyer le code d'erreur approprié.
 //
@@ -319,7 +317,6 @@ static int setrfs_open(const char *path, struct fuse_file_info *fi)
 	fi->fh = (uintptr_t) (&(*fichier));
 	incrementerCompteurFichier(cache, path, 1);
 	return 0;
-
 }
 
 
@@ -343,7 +340,18 @@ static int setrfs_open(const char *path, struct fuse_file_info *fi)
 static int setrfs_read(const char *path, char *buf, size_t size, off_t offset,
 		    struct fuse_file_info *fi)
 {
-		// TODO
+	uintptr_t* ptrOfFilePtr = (uintptr_t*) ((uint32_t) fi->fh);//get the pointer to the file pointer
+	uintptr_t filePtr = (uintptr_t) *ptrOfFilePtr;//deref to get the file pointer
+	struct cacheFichier *fileToRead = (struct cacheFichier*) filePtr;//cast the file pointer to the correct data type
+	uintptr_t startReadByteIndex = (uintptr_t) (&(fileToRead->data) + offset);//Where we want to start to read
+	uintptr_t maxIndex = (uintptr_t) (&(fileToRead->data) + fileToRead->len);//The end of the file
+	if((startReadByteIndex + size) > maxIndex)//where we want to start + how much we want to read
+	{
+		//Trying to read too much data, resize "size" so that it only reads the rest of the file
+		size = maxIndex - startReadByteIndex;
+	}
+	memcpy(buf, &startReadByteIndex, size);//transfer to buffer starting from the offset
+	return size;
 }
 
 
@@ -352,8 +360,17 @@ static int setrfs_read(const char *path, char *buf, size_t size, off_t offset,
 // utilisée pour stocker ce fichier (pensez au buffer contenant son cache, son nom, etc.)
 static int setrfs_release(const char *path, struct fuse_file_info *fi)
 {
-		// TODO
-		
+	struct fuse_context *context = fuse_get_context();
+	struct cacheData *cache = (struct cacheData*)context->private_data;
+	pthread_mutex_lock(&(cache->mutex));
+	struct cacheFichier *cachedFile = trouverFichier(cache, path);
+	incrementerCompteurFichier(cache, path, -1);
+	if(cachedFile->countOpen <= 0)
+	{
+		retirerFichier(cache, cachedFile);
+	}
+	pthread_mutex_unlock(&(cache->mutex));
+	return 0;
 }
 
 
