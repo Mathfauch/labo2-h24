@@ -46,14 +46,6 @@
 
 const char unixSockPath[] = "/tmp/setrunixsocket";
 
-typedef struct
-{
-	int ID;
-	uintptr_t cachedFilePtr;
-} fileHandleStruct;
-
-
-
 // Cette fonction initialise le cache et l'insère dans le contexte de FUSE, qui sera
 // accessible à toutes les autres fonctions.
 // Elle est déjà implémentée pour vous, mais vous pouvez la modifier au besoin.
@@ -208,6 +200,7 @@ static int setrfs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 // énoncées plus haut. Rappelez-vous en particulier qu'un pointeur est unique...
 static int setrfs_open(const char *path, struct fuse_file_info *fi)
 {
+	// TODO
 	return 0;
 }
 
