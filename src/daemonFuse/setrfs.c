@@ -48,8 +48,8 @@ const char unixSockPath[] = "/tmp/setrunixsocket";
 
 typedef struct
 {
+	int ID;
 	uintptr_t cachedFilePtr;
-	int openRes;
 } fileHandleStruct;
 
 
@@ -260,6 +260,7 @@ static int setrfs_open(const char *path, struct fuse_file_info *fi)
 	struct fuse_context *context = fuse_get_context();
 	struct cacheData *cache = (struct cacheData*)context->private_data;
 	struct cacheFichier *cachedFile = trouverFichier(cache, path);
+	pthread_mutex_lock(&(cache->mutex));
 	if(cachedFile == NULL)
 	{
 		//fichier n'est pas en cache, on doit faire une requete et l'obtenir
@@ -267,21 +268,15 @@ static int setrfs_open(const char *path, struct fuse_file_info *fi)
 	else
 	{
 		//fichier deja en cache
-		int res = open(path, fi->flags);
-		if(res == -1)
-		{
-			return -1;
-		}
-		else
-		{
-			fileHandleStruct *fileHandleStructPtr = malloc(sizeof(fileHandleStruct));//TODO: This file handle must be freed when the file is closed
-			fileHandleStructPtr->cachedFilePtr = (uintptr_t) &cachedFile;
-			fileHandleStructPtr->openRes = res;
-			fi->fh = (uintptr_t) fileHandleStructPtr;
-			return 0;
-		}
+		fileHandleStruct *fileHandleStructPtr = malloc(sizeof(fileHandleStruct));//TODO: This file handle must be freed when the file is closed
+		cachedFile->countOpen++;
+		fileHandleStructPtr->cachedFilePtr = (uintptr_t) &cachedFile;
+		int randomID = rand();
+		fileHandleStructPtr->ID = randomID;
+		fi->fh = (uintptr_t) fileHandleStructPtr;
 	}
-
+	pthread_mutex_unlock(&(cache->mutex));
+	return 0;
 }
 
 
@@ -325,7 +320,19 @@ static int setrfs_read(const char *path, char *buf, size_t size, off_t offset,
 // utilisée pour stocker ce fichier (pensez au buffer contenant son cache, son nom, etc.)
 static int setrfs_release(const char *path, struct fuse_file_info *fi)
 {
-		// TODO
+	struct fuse_context *context = fuse_get_context();
+	struct cacheData *cache = (struct cacheData*)context->private_data;
+	struct cacheFichier *cachedFile = trouverFichier(cache, path);
+	pthread_mutex_lock(&(cache->mutex));
+	cachedFile->countOpen--;
+	if(cachedFile->countOpen <= 0)
+	{
+		retirerFichier(cache, cachedFile);
+		fileHandleStruct *fileHandle = (fileHandleStruct*) ((uintptr_t) (fi->fh));
+		free((void*) fileHandle);
+	}
+	pthread_mutex_unlock(&(cache->mutex));
+	return 0;
 }
 
 
