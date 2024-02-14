@@ -232,17 +232,17 @@ static int setrfs_open(const char *path, struct fuse_file_info *fi)
 static int setrfs_read(const char *path, char *buf, size_t size, off_t offset,
 		    struct fuse_file_info *fi)
 {
-	//TODO add mutexes if necessary
-	fileHandleStruct *fileHandle = (fileHandleStruct*) ((uintptr_t) (fi->fh));
-	struct cacheFichier *fileToRead = (struct cacheFichier*) ((uintptr_t) fileHandle->cachedFilePtr);
-	uintptr_t startReadByteIndex = (uintptr_t) (fileToRead->data[0] + offset);
-	uintptr_t maxIndex = (uintptr_t) (fileToRead->data[0] + fileToRead->len);
-	if((startReadByteIndex + size) > maxIndex)
+	uintptr_t* ptrOfFilePtr = (uintptr_t*) ((uint32_t) fi->fh);//get the pointer to the file pointer
+	uintptr_t filePtr = (uintptr_t) *ptrOfFilePtr;//deref to get the file pointer
+	struct cacheFichier *fileToRead = (struct cacheFichier*) filePtr;//cast the file pointer to the correct data type
+	uintptr_t startReadByteIndex = (uintptr_t) (&(fileToRead->data) + offset);//Where we want to start to read
+	uintptr_t maxIndex = (uintptr_t) (&(fileToRead->data) + fileToRead->len);//The end of the file
+	if((startReadByteIndex + size) > maxIndex)//where we want to start + how much we want to read
 	{
 		//Trying to read too much data, resize "size" so that it only reads the rest of the file
 		size = maxIndex - startReadByteIndex;
 	}
-	memcpy(buf, fileToRead->data, size);
+	memcpy(buf, &startReadByteIndex, size);//transfer to buffer starting from the offset
 	return size;
 }
 
