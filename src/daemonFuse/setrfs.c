@@ -90,56 +90,7 @@ void* setrfs_init(struct fuse_conn_info *conn){
 // lignes dans d'autres fonctions.
 static int setrfs_getattr(const char *path, struct stat *stbuf)
 {
-	// On récupère le contexte
-	struct fuse_context *context = fuse_get_context();
-
-	// Si vous avez enregistré dans données dans setrfs_init, alors elles sont disponibles dans context->private_data
-	// Ici, voici un exemple où nous les utilisons pour donner le bon propriétaire au fichier (l'utilisateur courant)
-	stbuf->st_uid = context->uid;		// On indique l'utilisateur actuel comme proprietaire
-	stbuf->st_gid = context->gid;		// Idem pour le groupe
-
-	stbuf->st_ino = 0;
-	stbuf->st_dev = 0;
-	stbuf->st_nlink = 0;
-	stbuf->st_rdev = 0;
-	time_t currentTime;
-	time(&currentTime);
-	stbuf->st_atime = currentTime;//time of last access (now)
-
-	char firstCharOfPath;
-	memcmp(&firstCharOfPath, path, sizeof(char));
-	if(firstCharOfPath == '/')
-	{
-		//on ne gere pas les sous-repertoires, donc il s'agit ici du root et du seul repertoire possible
-		stbuf->st_mode = (S_IFDIR & S_IFMT) | S_IRWXU | S_IRWXG | S_IRWXO;
-	}
-	else
-	{
-		stbuf->st_mode = (S_IFREG & S_IFMT) | S_IRWXU | S_IRWXG | S_IRWXO;
-	}
-
-	struct cacheData *cache = (struct cacheData*)context->private_data;
-	struct cacheFichier *cachedFile = trouverFichier(cache, path);
-	if(cachedFile == NULL)
-	{
-		//Le fichier n'est pas encore en cache, on indique une taille arbitraire
-		stbuf->st_size = 1;
-		//TODO: find return, do we signal an error?
-	}
-	else
-	{
-		if(cachedFile->countOpen > 1)
-		{
-			//fichier est ouvert, on donne la taille reelle
-			stbuf->st_size = cachedFile->len;
-		}
-		else
-		{
-			//fichier n'est pas ouvert, on donne la borne superieure
-			stbuf->st_size = 104857601;
-		}
-		return 0;
-	}
+	return 0;
 }
 
 
@@ -257,25 +208,6 @@ static int setrfs_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 // énoncées plus haut. Rappelez-vous en particulier qu'un pointeur est unique...
 static int setrfs_open(const char *path, struct fuse_file_info *fi)
 {
-	struct fuse_context *context = fuse_get_context();
-	struct cacheData *cache = (struct cacheData*)context->private_data;
-	struct cacheFichier *cachedFile = trouverFichier(cache, path);
-	pthread_mutex_lock(&(cache->mutex));
-	if(cachedFile == NULL)
-	{
-		//fichier n'est pas en cache, on doit faire une requete et l'obtenir
-	}
-	else
-	{
-		//fichier deja en cache
-		fileHandleStruct *fileHandleStructPtr = malloc(sizeof(fileHandleStruct));//TODO: This file handle must be freed when the file is closed
-		cachedFile->countOpen++;
-		fileHandleStructPtr->cachedFilePtr = (uintptr_t) &cachedFile;
-		int randomID = rand();
-		fileHandleStructPtr->ID = randomID;
-		fi->fh = (uintptr_t) fileHandleStructPtr;
-	}
-	pthread_mutex_unlock(&(cache->mutex));
 	return 0;
 }
 
@@ -322,14 +254,12 @@ static int setrfs_release(const char *path, struct fuse_file_info *fi)
 {
 	struct fuse_context *context = fuse_get_context();
 	struct cacheData *cache = (struct cacheData*)context->private_data;
-	struct cacheFichier *cachedFile = trouverFichier(cache, path);
 	pthread_mutex_lock(&(cache->mutex));
-	cachedFile->countOpen--;
+	struct cacheFichier *cachedFile = trouverFichier(cache, path);
+	incrementerCompteurFichier(cache, path, -1);
 	if(cachedFile->countOpen <= 0)
 	{
 		retirerFichier(cache, cachedFile);
-		fileHandleStruct *fileHandle = (fileHandleStruct*) ((uintptr_t) (fi->fh));
-		free((void*) fileHandle);
 	}
 	pthread_mutex_unlock(&(cache->mutex));
 	return 0;
