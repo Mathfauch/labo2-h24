@@ -1,0 +1,3 @@
+/home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/build/CMakeFiles/tp2client.dir
+/home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/build/CMakeFiles/edit_cache.dir
+/home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/build/CMakeFiles/rebuild_cache.dir
