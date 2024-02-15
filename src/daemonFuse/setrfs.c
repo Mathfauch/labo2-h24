@@ -100,7 +100,7 @@ static int setrfs_getattr(const char *path, struct stat *stbuf)
 	stbuf->st_atime=0;
 	stbuf->st_mtime=0;
 	stbuf->st_ctime=0;
-	stbuf->st_blksize=1;
+	stbuf->st_blksize=0;
 	stbuf->st_blocks=0;
 
 	struct cacheData *cache = (struct cacheData*)context->private_data;
@@ -109,18 +109,14 @@ static int setrfs_getattr(const char *path, struct stat *stbuf)
 	struct cacheFichier *fichier = trouverFichier(cache, path);
 	pthread_mutex_unlock(&(cache->mutex));
 
-	if (fichier != NULL) {
-		stbuf->st_mode = 0777;
-		if (strcmp(path, "/") == 0)
-		{
-			stbuf ->st_mode |= S_IFDIR;
-			stbuf->st_nlink=2;
-			stbuf->st_size=1;
-		}
-		else {
-			stbuf->st_mode |= S_IFREG;
-			stbuf->st_size = fichier->len;
-		}
+	stbuf->st_mode = 0777;
+	if (strcmp(path, "/") == 0)
+	{
+		stbuf ->st_mode |= S_IFDIR;
+	}
+	else if (fichier != NULL) {
+		stbuf->st_mode |= S_IFREG;
+		stbuf->st_size = fichier->len;
 	}
 	
 	else {

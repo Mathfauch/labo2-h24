@@ -6,7 +6,11 @@
         {
             "label": "syncAndStartGDB",
             "type": "shell",
+<<<<<<< HEAD
             "command": "./syncAndStartGDB.sh ${workspaceRoot} rpi-mf.duckdns.org",
+=======
+            "command": "./syncAndStartGDB.sh ${workspaceRoot} david-pi-rtos.duckdns.org",
+>>>>>>> 2f8034c8c0a55bc13fd8991692db3dee07cfc967
             "presentation": {
                 "reveal": "always",
                 "panel": "new"
