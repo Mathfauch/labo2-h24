@@ -1,0 +1,32 @@
+[
+{
+  "directory": "/home/setr/projets/eq1/labo2-h24/src/serveurCurl/build",
+  "command": "/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc --sysroot=/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot   -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/opt/vc/lib -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/lib/arm-linux-gnueabihf -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/usr/lib/arm-linux-gnueabihf -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/usr/local/lib -g   -Wall -Wextra -Wpedantic -Wduplicated-cond -Wlogical-op -Wnull-dereference -Wjump-misses-init -Wshadow -fno-omit-frame-pointer -o CMakeFiles/tp2serveur.dir/telechargeur.c.o -c /home/setr/projets/eq1/labo2-h24/src/serveurCurl/telechargeur.c",
+  "file": "/home/setr/projets/eq1/labo2-h24/src/serveurCurl/telechargeur.c",
+  "output": "CMakeFiles/tp2serveur.dir/telechargeur.c.o"
+},
+{
+  "directory": "/home/setr/projets/eq1/labo2-h24/src/serveurCurl/build",
+  "command": "/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc --sysroot=/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot   -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/opt/vc/lib -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/lib/arm-linux-gnueabihf -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/usr/lib/arm-linux-gnueabihf -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/usr/local/lib -g   -Wall -Wextra -Wpedantic -Wduplicated-cond -Wlogical-op -Wnull-dereference -Wjump-misses-init -Wshadow -fno-omit-frame-pointer -o CMakeFiles/tp2serveur.dir/requete.c.o -c /home/setr/projets/eq1/labo2-h24/src/serveurCurl/requete.c",
+  "file": "/home/setr/projets/eq1/labo2-h24/src/serveurCurl/requete.c",
+  "output": "CMakeFiles/tp2serveur.dir/requete.c.o"
+},
+{
+  "directory": "/home/setr/projets/eq1/labo2-h24/src/serveurCurl/build",
+  "command": "/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc --sysroot=/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot   -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/opt/vc/lib -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/lib/arm-linux-gnueabihf -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/usr/lib/arm-linux-gnueabihf -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/usr/local/lib -g   -Wall -Wextra -Wpedantic -Wduplicated-cond -Wlogical-op -Wnull-dereference -Wjump-misses-init -Wshadow -fno-omit-frame-pointer -o CMakeFiles/tp2serveur.dir/actions.c.o -c /home/setr/projets/eq1/labo2-h24/src/serveurCurl/actions.c",
+  "file": "/home/setr/projets/eq1/labo2-h24/src/serveurCurl/actions.c",
+  "output": "CMakeFiles/tp2serveur.dir/actions.c.o"
+},
+{
+  "directory": "/home/setr/projets/eq1/labo2-h24/src/serveurCurl/build",
+  "command": "/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc --sysroot=/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot   -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/opt/vc/lib -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/lib/arm-linux-gnueabihf -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/usr/lib/arm-linux-gnueabihf -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/usr/local/lib -g   -Wall -Wextra -Wpedantic -Wduplicated-cond -Wlogical-op -Wnull-dereference -Wjump-misses-init -Wshadow -fno-omit-frame-pointer -o CMakeFiles/tp2serveur.dir/servermain.c.o -c /home/setr/projets/eq1/labo2-h24/src/serveurCurl/servermain.c",
+  "file": "/home/setr/projets/eq1/labo2-h24/src/serveurCurl/servermain.c",
+  "output": "CMakeFiles/tp2serveur.dir/servermain.c.o"
+},
+{
+  "directory": "/home/setr/projets/eq1/labo2-h24/src/serveurCurl/build",
+  "command": "/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc --sysroot=/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot   -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/opt/vc/lib -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/lib/arm-linux-gnueabihf -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/usr/lib/arm-linux-gnueabihf -Wl,-rpath-link,/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/usr/local/lib -g   -Wall -Wextra -Wpedantic -Wduplicated-cond -Wlogical-op -Wnull-dereference -Wjump-misses-init -Wshadow -fno-omit-frame-pointer -o CMakeFiles/tp2serveur.dir/communications.c.o -c /home/setr/projets/eq1/labo2-h24/src/serveurCurl/communications.c",
+  "file": "/home/setr/projets/eq1/labo2-h24/src/serveurCurl/communications.c",
+  "output": "CMakeFiles/tp2serveur.dir/communications.c.o"
+}
+]

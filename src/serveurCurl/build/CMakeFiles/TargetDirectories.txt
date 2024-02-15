@@ -1,0 +1,3 @@
+/home/setr/projets/eq1/labo2-h24/src/serveurCurl/build/CMakeFiles/tp2serveur.dir
+/home/setr/projets/eq1/labo2-h24/src/serveurCurl/build/CMakeFiles/edit_cache.dir
+/home/setr/projets/eq1/labo2-h24/src/serveurCurl/build/CMakeFiles/rebuild_cache.dir

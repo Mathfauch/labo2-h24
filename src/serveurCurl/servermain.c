@@ -47,43 +47,14 @@ void gererSignal(int signo) {
     // Fonction affichant des statistiques sur les tâches en cours
     // lorsque SIGUSR2 (et _seulement_ SIGUSR2) est reçu
     // TODO
-    printf("============================================================\n");
-    printf("| %2s | %26s | %7s | %12s |\n", "#", "Status", "PID", "File");
-    printf("============================================================\n");
 
     if (signo == SIGUSR2) {
         for (int i = 0; i < MAX_CONNEXIONS; i++) {
-            const char* status = statusDesc[reqList[i].status];
-            pid_t pid = reqList[i].pid;
-            struct msgReq req;
-            char* fname;
-
-            if (reqList[i].status >= 2) {
-                char index[] = "index.txt";
-                memcpy(&req, reqList[i].buf, sizeof(req));
-
-                size_t allocsize = req.type == REQ_LIST ? sizeof(index) : req.sizePayload + 1;
-                fname = malloc(allocsize);
-
-                if (req.type == REQ_LIST) {
-                    strncpy(fname, index, 10);
-                }
-                else if (req.type == REQ_READ) {
-                    strncpy(fname, reqList[i].buf, req.sizePayload);
-                    fname[allocsize - 1] = '\0';
-                }
+            if (reqList[i].status != REQ_STATUS_INACTIVE) {
+                printf("processus %d avec PID : %d\n", i, reqList[i].pid);
             }
-            else {
-                fname = malloc(1);
-                *fname = '\0';
-            }
-            printf("| %2d | %26s | %7d | %12s |\n", i, status, pid, fname);
-
-            free(fname);
         }
     }
-
-    printf("============================================================\n");
 }
 
 

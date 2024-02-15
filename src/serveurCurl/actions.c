@@ -25,7 +25,8 @@ int verifierNouvelleConnexion(struct requete reqList[], int maxlen, int socket){
     int val = accept(socket, NULL, NULL);
     if (val < 1) {
         if (errno != EAGAIN) {
-            return 0;
+            // TODO
+            return -1;
         }
         else {
             return 0;
@@ -131,7 +132,6 @@ int traiterConnexions(struct requete reqList[], int maxlen){
                         case 0:
                             close(pipefd[0]);
                             executerRequete(pipefd[1], buffer);
-                            close(pipefd[1]);
                             _exit(EXIT_SUCCESS);
                             break;
                         default:
@@ -188,7 +188,7 @@ int traiterTelechargements(struct requete reqList[], int maxlen){
     for(int i = 0; i < maxlen; i++){
         if(reqList[i].status == REQ_STATUS_INPROGRESS){
             FD_SET(reqList[i].fdPipe, &setPipes);
-            nfdsPipes = (nfdsPipes <= reqList[i].fdSocket) ? reqList[i].fdSocket+1 : nfdsPipes;
+            nfdsPipes = (nfdsPipes <= reqList[i].fdPipe) ? reqList[i].fdPipe+1 : nfdsPipes;
         }
     }
 
@@ -213,9 +213,9 @@ int traiterTelechargements(struct requete reqList[], int maxlen){
                     char* buffer = malloc(payload_size);
                     size_t payload_done = 0;
                     while (payload_done < payload_size) {
-                        if (VERBOSE) {
-                            printf("taille restante: %u\n", payload_size-payload_done);
-                        }
+                        // if (VERBOSE) {
+                        //     printf("taille restante: %u\n", payload_size-payload_done);
+                        // }
                         octetsATraites = read(reqList[i].fdPipe, buffer+payload_done, payload_size-payload_done);
                         payload_done += octetsATraites;
                     }
