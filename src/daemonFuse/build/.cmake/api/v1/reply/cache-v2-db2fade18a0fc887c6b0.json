@@ -39,11 +39,11 @@
 			[
 				{
 					"name" : "HELPSTRING",
-					"value" : "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel ..."
+					"value" : "No help, variable specified on the command line."
 				}
 			],
 			"type" : "STRING",
-			"value" : ""
+			"value" : "Debug"
 		},
 		{
 			"name" : "CMAKE_CACHEFILE_DIR",
@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/build"
+			"value" : "/home/setr/projets/eq1/labo2-h24/src/daemonFuse/build"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -531,11 +531,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "Enable/Disable output of compile commands during generation."
+					"value" : "No help, variable specified on the command line."
 				}
 			],
 			"type" : "BOOL",
-			"value" : ""
+			"value" : "TRUE"
 		},
 		{
 			"name" : "CMAKE_EXTRA_GENERATOR",
@@ -559,7 +559,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/build/CMakeFiles/pkgRedirects"
+			"value" : "/home/setr/projets/eq1/labo2-h24/src/daemonFuse/build/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -619,7 +619,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse"
+			"value" : "/home/setr/projets/eq1/labo2-h24/src/daemonFuse"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -1183,7 +1183,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/build"
+			"value" : "/home/setr/projets/eq1/labo2-h24/src/daemonFuse/build"
 		},
 		{
 			"name" : "SETR_TP2_CLIENT_IS_TOP_LEVEL",
@@ -1207,7 +1207,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse"
+			"value" : "/home/setr/projets/eq1/labo2-h24/src/daemonFuse"
 		},
 		{
 			"name" : "_CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED",

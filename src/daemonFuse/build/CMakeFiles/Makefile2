@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse
+CMAKE_SOURCE_DIR = /home/setr/projets/eq1/labo2-h24/src/daemonFuse
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/build
+CMAKE_BINARY_DIR = /home/setr/projets/eq1/labo2-h24/src/daemonFuse/build
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -81,14 +81,14 @@ clean: CMakeFiles/tp2client.dir/clean
 CMakeFiles/tp2client.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp2client.dir/build.make CMakeFiles/tp2client.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp2client.dir/build.make CMakeFiles/tp2client.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/build/CMakeFiles --progress-num=1,2,3,4 "Built target tp2client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/setr/projets/eq1/labo2-h24/src/daemonFuse/build/CMakeFiles --progress-num=1,2,3,4 "Built target tp2client"
 .PHONY : CMakeFiles/tp2client.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/tp2client.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/setr/projets/eq1/labo2-h24/src/daemonFuse/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/tp2client.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/setr/projets/eq1/labo2-h24/src/daemonFuse/build/CMakeFiles 0
 .PHONY : CMakeFiles/tp2client.dir/rule
 
 # Convenience name for target.

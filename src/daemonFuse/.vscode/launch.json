@@ -11,7 +11,7 @@
             "gdbpath": "${env:HOME}/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gdb",
             "name": "Debogage distant avec gdbserver",
             "executable": "./build/tp2client",
-            "target": "david-pi-rtos.duckdns.org:4568",
+            "target": "rpi-mf.duckdns.org:4568",
             "remote": true,
             "autorun": [
                 "set sysroot ${env:HOME}/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot/"

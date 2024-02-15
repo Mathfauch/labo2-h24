@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse
+CMAKE_SOURCE_DIR = /home/setr/projets/eq1/labo2-h24/src/daemonFuse
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/build
+CMAKE_BINARY_DIR = /home/setr/projets/eq1/labo2-h24/src/daemonFuse/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/tp2client.dir/depend.make
@@ -70,46 +70,46 @@ include CMakeFiles/tp2client.dir/progress.make
 include CMakeFiles/tp2client.dir/flags.make
 
 CMakeFiles/tp2client.dir/setrfs.c.o: CMakeFiles/tp2client.dir/flags.make
-CMakeFiles/tp2client.dir/setrfs.c.o: /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/setrfs.c
+CMakeFiles/tp2client.dir/setrfs.c.o: /home/setr/projets/eq1/labo2-h24/src/daemonFuse/setrfs.c
 CMakeFiles/tp2client.dir/setrfs.c.o: CMakeFiles/tp2client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/tp2client.dir/setrfs.c.o"
-	/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc --sysroot=/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/tp2client.dir/setrfs.c.o -MF CMakeFiles/tp2client.dir/setrfs.c.o.d -o CMakeFiles/tp2client.dir/setrfs.c.o -c /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/setrfs.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/setr/projets/eq1/labo2-h24/src/daemonFuse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/tp2client.dir/setrfs.c.o"
+	/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc --sysroot=/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/tp2client.dir/setrfs.c.o -MF CMakeFiles/tp2client.dir/setrfs.c.o.d -o CMakeFiles/tp2client.dir/setrfs.c.o -c /home/setr/projets/eq1/labo2-h24/src/daemonFuse/setrfs.c
 
 CMakeFiles/tp2client.dir/setrfs.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/tp2client.dir/setrfs.c.i"
-	/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc --sysroot=/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/setrfs.c > CMakeFiles/tp2client.dir/setrfs.c.i
+	/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc --sysroot=/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/setr/projets/eq1/labo2-h24/src/daemonFuse/setrfs.c > CMakeFiles/tp2client.dir/setrfs.c.i
 
 CMakeFiles/tp2client.dir/setrfs.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/tp2client.dir/setrfs.c.s"
-	/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc --sysroot=/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/setrfs.c -o CMakeFiles/tp2client.dir/setrfs.c.s
+	/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc --sysroot=/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/setr/projets/eq1/labo2-h24/src/daemonFuse/setrfs.c -o CMakeFiles/tp2client.dir/setrfs.c.s
 
 CMakeFiles/tp2client.dir/fstools.c.o: CMakeFiles/tp2client.dir/flags.make
-CMakeFiles/tp2client.dir/fstools.c.o: /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/fstools.c
+CMakeFiles/tp2client.dir/fstools.c.o: /home/setr/projets/eq1/labo2-h24/src/daemonFuse/fstools.c
 CMakeFiles/tp2client.dir/fstools.c.o: CMakeFiles/tp2client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/tp2client.dir/fstools.c.o"
-	/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc --sysroot=/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/tp2client.dir/fstools.c.o -MF CMakeFiles/tp2client.dir/fstools.c.o.d -o CMakeFiles/tp2client.dir/fstools.c.o -c /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/fstools.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/setr/projets/eq1/labo2-h24/src/daemonFuse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/tp2client.dir/fstools.c.o"
+	/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc --sysroot=/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/tp2client.dir/fstools.c.o -MF CMakeFiles/tp2client.dir/fstools.c.o.d -o CMakeFiles/tp2client.dir/fstools.c.o -c /home/setr/projets/eq1/labo2-h24/src/daemonFuse/fstools.c
 
 CMakeFiles/tp2client.dir/fstools.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/tp2client.dir/fstools.c.i"
-	/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc --sysroot=/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/fstools.c > CMakeFiles/tp2client.dir/fstools.c.i
+	/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc --sysroot=/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/setr/projets/eq1/labo2-h24/src/daemonFuse/fstools.c > CMakeFiles/tp2client.dir/fstools.c.i
 
 CMakeFiles/tp2client.dir/fstools.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/tp2client.dir/fstools.c.s"
-	/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc --sysroot=/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/fstools.c -o CMakeFiles/tp2client.dir/fstools.c.s
+	/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc --sysroot=/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/setr/projets/eq1/labo2-h24/src/daemonFuse/fstools.c -o CMakeFiles/tp2client.dir/fstools.c.s
 
 CMakeFiles/tp2client.dir/communications.c.o: CMakeFiles/tp2client.dir/flags.make
-CMakeFiles/tp2client.dir/communications.c.o: /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/communications.c
+CMakeFiles/tp2client.dir/communications.c.o: /home/setr/projets/eq1/labo2-h24/src/daemonFuse/communications.c
 CMakeFiles/tp2client.dir/communications.c.o: CMakeFiles/tp2client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/tp2client.dir/communications.c.o"
-	/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc --sysroot=/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/tp2client.dir/communications.c.o -MF CMakeFiles/tp2client.dir/communications.c.o.d -o CMakeFiles/tp2client.dir/communications.c.o -c /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/communications.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/setr/projets/eq1/labo2-h24/src/daemonFuse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/tp2client.dir/communications.c.o"
+	/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc --sysroot=/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/tp2client.dir/communications.c.o -MF CMakeFiles/tp2client.dir/communications.c.o.d -o CMakeFiles/tp2client.dir/communications.c.o -c /home/setr/projets/eq1/labo2-h24/src/daemonFuse/communications.c
 
 CMakeFiles/tp2client.dir/communications.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/tp2client.dir/communications.c.i"
-	/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc --sysroot=/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/communications.c > CMakeFiles/tp2client.dir/communications.c.i
+	/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc --sysroot=/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/setr/projets/eq1/labo2-h24/src/daemonFuse/communications.c > CMakeFiles/tp2client.dir/communications.c.i
 
 CMakeFiles/tp2client.dir/communications.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/tp2client.dir/communications.c.s"
-	/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc --sysroot=/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/communications.c -o CMakeFiles/tp2client.dir/communications.c.s
+	/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/bin/arm-raspbian-linux-gnueabi-gcc --sysroot=/home/setr/arm-cross-comp-env/arm-raspbian-linux-gnueabi/arm-raspbian-linux-gnueabi/sysroot $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/setr/projets/eq1/labo2-h24/src/daemonFuse/communications.c -o CMakeFiles/tp2client.dir/communications.c.s
 
 # Object files for target tp2client
 tp2client_OBJECTS = \
@@ -125,7 +125,7 @@ tp2client: CMakeFiles/tp2client.dir/fstools.c.o
 tp2client: CMakeFiles/tp2client.dir/communications.c.o
 tp2client: CMakeFiles/tp2client.dir/build.make
 tp2client: CMakeFiles/tp2client.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable tp2client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/setr/projets/eq1/labo2-h24/src/daemonFuse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable tp2client"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/tp2client.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -137,6 +137,6 @@ CMakeFiles/tp2client.dir/clean:
 .PHONY : CMakeFiles/tp2client.dir/clean
 
 CMakeFiles/tp2client.dir/depend:
-	cd /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/build /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/build /home/setr/projets/lab2_team_edition/labo2-h24/src/daemonFuse/build/CMakeFiles/tp2client.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /home/setr/projets/eq1/labo2-h24/src/daemonFuse/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/setr/projets/eq1/labo2-h24/src/daemonFuse /home/setr/projets/eq1/labo2-h24/src/daemonFuse /home/setr/projets/eq1/labo2-h24/src/daemonFuse/build /home/setr/projets/eq1/labo2-h24/src/daemonFuse/build /home/setr/projets/eq1/labo2-h24/src/daemonFuse/build/CMakeFiles/tp2client.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/tp2client.dir/depend
 

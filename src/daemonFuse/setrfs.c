@@ -84,6 +84,7 @@ static int setrfs_getattr(const char *path, struct stat *stbuf)
 {
 	// On récupère le contexte
 	struct fuse_context *context = fuse_get_context();
+	*stbuf = (struct stat) {0};
 
 	// Si vous avez enregistré dans données dans setrfs_init, alors elles sont disponibles dans context->private_data
 	// Ici, voici un exemple où nous les utilisons pour donner le bon propriétaire au fichier (l'utilisateur courant)
@@ -92,37 +93,27 @@ static int setrfs_getattr(const char *path, struct stat *stbuf)
 
 	// TODO
 
-	stbuf->st_dev=0;
-	stbuf->st_ino=0;
-	stbuf->st_nlink=0;
-	stbuf->st_rdev=0;
-	stbuf->st_size=0;
-	stbuf->st_atime=0;
-	stbuf->st_mtime=0;
-	stbuf->st_ctime=0;
-	stbuf->st_blksize=0;
-	stbuf->st_blocks=0;
-
 	struct cacheData *cache = (struct cacheData*)context->private_data;
 
 	pthread_mutex_lock(&(cache->mutex));
 	struct cacheFichier *fichier = trouverFichier(cache, path);
-	pthread_mutex_unlock(&(cache->mutex));
 
 	stbuf->st_mode = 0777;
 	if (strcmp(path, "/") == 0)
 	{
-		stbuf ->st_mode |= S_IFDIR;
+		stbuf->st_mode |= (S_IFDIR & S_IFMT);
 	}
 	else if (fichier != NULL) {
-		stbuf->st_mode |= S_IFREG;
+		stbuf->st_mode |= (S_IFREG & S_IFMT);
 		stbuf->st_size = fichier->len;
 	}
 	
 	else {
-		stbuf->st_mode |= S_IFREG;
+		stbuf->st_mode |= (S_IFREG & S_IFMT);
 		stbuf->st_size = 104857600 + 1;
 	}
+
+	pthread_mutex_unlock(&(cache->mutex));
 
 	return 0;
 
@@ -247,11 +238,12 @@ static int setrfs_open(const char *path, struct fuse_file_info *fi)
 	struct fuse_context *context = fuse_get_context();
 	struct cacheData *cache = (struct cacheData*)context->private_data;
 
+	const char *new_path = &path[1];
 	pthread_mutex_lock(&(cache->mutex));
-	struct cacheFichier *fichier = trouverFichier(cache, path);
+	struct cacheFichier *fh = trouverFichier(cache, new_path);
 	pthread_mutex_unlock(&(cache->mutex));
 
-	if (fichier == NULL) {
+	if (fh == NULL) {
 		// Le fichier est pas en cache faique faut faire une request
 		int sock = socket(AF_UNIX, SOCK_STREAM, 0);
 		if(sock == -1){
@@ -274,8 +266,8 @@ static int setrfs_open(const char *path, struct fuse_file_info *fi)
 		// Formatage et envoi de la requete
 		struct msgReq req;
 		req.type = REQ_READ;
-		req.sizePayload = sizeof(path);
-		int octetsTraites = envoyerMessage(sock, &req, (char*) path);
+		req.sizePayload = strlen(new_path);
+		int octetsTraites = envoyerMessage(sock, &req, (char *) new_path);
 
 		// On attend et on recoit le fichier demande
 		struct msgRep rep;
@@ -288,9 +280,10 @@ static int setrfs_open(const char *path, struct fuse_file_info *fi)
 			return EACCES;
 		}
 
-		fichier = malloc(sizeof(struct cacheFichier) + rep.sizePayload);
-		fichier = (struct cacheFichier*) {0};
-		fichier->nom = (char*) path;
+		struct cacheFichier* fichier = malloc(sizeof(struct cacheFichier) + rep.sizePayload);
+		memset(fichier, 0, sizeof(struct cacheFichier));
+		fichier->nom = malloc(strlen(new_path) + 1);
+		strcpy(fichier->nom, new_path);
 		fichier->len = rep.sizePayload;
 
 		char *buff = malloc(rep.sizePayload + 1);
@@ -301,17 +294,21 @@ static int setrfs_open(const char *path, struct fuse_file_info *fi)
 			totalRecu += octetsTraites;
 		}
 
-		memcpy(fichier->data, buff, sizeof(buff));
+		fichier->data = malloc(totalRecu + 1);
+		memcpy(fichier->data, buff, totalRecu);
 
 		pthread_mutex_lock(&(cache->mutex));
 		insererFichier(cache, fichier);
 		pthread_mutex_unlock(&(cache->mutex));
 
 		free(buff);
-	}
+		fi->fh = (uintptr_t) (&(*fichier));
+		incrementerCompteurFichier(cache, new_path, 1);
+		return 0;
 
-	fi->fh = (uintptr_t) (&(*fichier));
-	incrementerCompteurFichier(cache, path, 1);
+	}
+	fi->fh = (uintptr_t) (&(*fh));
+	incrementerCompteurFichier(cache, new_path, 1);
 	return 0;
 }
 
@@ -336,17 +333,16 @@ static int setrfs_open(const char *path, struct fuse_file_info *fi)
 static int setrfs_read(const char *path, char *buf, size_t size, off_t offset,
 		    struct fuse_file_info *fi)
 {
-	uintptr_t* ptrOfFilePtr = (uintptr_t*) ((uint32_t) fi->fh);//get the pointer to the file pointer
-	uintptr_t filePtr = (uintptr_t) *ptrOfFilePtr;//deref to get the file pointer
-	struct cacheFichier *fileToRead = (struct cacheFichier*) filePtr;//cast the file pointer to the correct data type
-	uintptr_t startReadByteIndex = (uintptr_t) (&(fileToRead->data) + offset);//Where we want to start to read
-	uintptr_t maxIndex = (uintptr_t) (&(fileToRead->data) + fileToRead->len);//The end of the file
-	if((startReadByteIndex + size) > maxIndex)//where we want to start + how much we want to read
-	{
-		//Trying to read too much data, resize "size" so that it only reads the rest of the file
-		size = maxIndex - startReadByteIndex;
-	}
-	memcpy(buf, &startReadByteIndex, size);//transfer to buffer starting from the offset
+
+	struct cacheFichier *fileToRead = (struct cacheFichier*) fi->fh;//cast the file pointer to the correct data type
+	
+	if (size == offset)
+		return 0;
+
+	if (size > fileToRead->len - offset)
+		size = fileToRead->len - offset;
+	
+	memcpy(buf, &fileToRead->data + offset, size);//transfer to buffer starting from the offset
 	return size;
 }
 
@@ -359,7 +355,7 @@ static int setrfs_release(const char *path, struct fuse_file_info *fi)
 	struct fuse_context *context = fuse_get_context();
 	struct cacheData *cache = (struct cacheData*)context->private_data;
 	pthread_mutex_lock(&(cache->mutex));
-	struct cacheFichier *cachedFile = trouverFichier(cache, path);
+	struct cacheFichier *cachedFile = (struct cacheFichier*) fi->fh;
 	incrementerCompteurFichier(cache, path, -1);
 	if(cachedFile->countOpen <= 0)
 	{
